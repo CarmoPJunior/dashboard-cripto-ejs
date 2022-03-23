@@ -107,36 +107,39 @@ h1, h2{
 }
 .details .recentOrders{
   position: relative;
-  display: grid;
+  display: flex;
   background: var(--dark4);
   padding: 20px;
   box-shadow: 0 25px 20px -20px rgb(0 0 0 / 10%), 0 0 15px rgb(0 0 0 / 6%);
   border-radius: 20px;
+  flex-direction: column;
+
 }
-.cardHeader{
+.card-header{
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
-.cardHeader h2{
+.card-header h2{
   font-weight: 600;
   color: rgba(244,244,245,.9);
 }
+.card-body{
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
 .details table{
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-
 }
 .details table thead td{
   font-weight: 600;
 }
 .details .recentOrders table thead {
   color:rgba(244,244,245,.9);
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-}
-.details .recentOrders table thead {
-  color:rgba(244,244,245,.9);
+  background-color: rgba(0,0,0,.24);
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 .details .recentOrders table tr:last-child{
@@ -144,6 +147,7 @@ h1, h2{
 }
 .details .recentOrders table tbody tr:hover{
   background: var(--dark3);
+  background: rgba(0,0,0,.20);
   color: var(--white);
 }
 .details .recentOrders table tr td{
@@ -173,6 +177,13 @@ h1, h2{
   color: var(--white);
 }
 
+.chart-bitcoin{
+  width:100%;
+  display: block;
+  height: 100%;
+  min-height: 280px;
+}
+
 /* card 2 */
 
 .card2{
@@ -194,11 +205,23 @@ h1, h2{
   padding: 0.25rem 0.25rem;
 }
 .card2 .card2-header .card2-header-icon {
-  font-size: 3.5em;
-  color: #e49400!important;
   display: flex;
   align-items: center;
+  width: 64px;
+  height: 64px;
+
 }
+.card2 .card2-header .card2-header-icon img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  border-radius: 50%!important;
+  border: 2px solid #fff;
+  border: 1px solid #ddd;
+  padding: 1px;
+  background: white;
+}
+
 .card2 .card2-header .card2-header-detail {
   position: relative;
   display: flex;
@@ -234,25 +257,16 @@ h1, h2{
 }
 .card2 .card2-body .card2-body-value{
   font-weight: bolder;
-  color: #db2a34!important;
+  /* color: #db2a34!important; */
+  color: #ddd!important;
   font-size: 2.2em;
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.card2 .card2-body .card2-body-details{
-  color: white;
-  font-size: 0.9em;
-  font-style: normal;
-  font-weight: 400;
   line-height: 1.0;
-  width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding-left: 10px;
 }
-
 .cardBox .card2:hover{
   background: var(--dark3);
 }
@@ -264,6 +278,26 @@ h1, h2{
   color: var(--white);
 }
 
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,.80) #686972;;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #686972;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,.80);
+  border-radius: 20px;
+  border: 3px solid #686972;
+}
 
 /* responsive design */
 @media (max-width: 991px) {
@@ -281,6 +315,9 @@ h1, h2{
 }
 @media (max-width: 480px) {
   .cardBox{
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .details{
     grid-template-columns: repeat(1, 1fr);
   }
   .cardHeader h2{
