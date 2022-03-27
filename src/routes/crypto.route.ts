@@ -15,18 +15,23 @@ route.get("/coins/:coin", async function (req, res, next) {
   res.status(StatusCodes.OK).send(data);
 });
 
-// Route to get last 8 trades
+// Route to get last 10 trades
 route.get("/coins/:coin/trades", async function (req, res, next) {
   const { coin } = req.params;
 
   await MercadoBitCoinApi.get(`${coin}/trades`)
     .then(response => {
       const data = response.data;
-      const lenght = data.lenght;
+      const lenght = Object.keys(data).length; // Get object size
 
-      console.log(lenght);
-      const first10Data = data.slice(lenght - 8, lenght);
-      res.status(StatusCodes.OK).send(first10Data);
+      const last10Data = data.slice(lenght - 10, lenght); // Get last 10 records
+
+      // Sort object in descending order
+      last10Data.sort(function (x: any, y: any) {
+        return y.date - x.date;
+      });
+
+      res.status(StatusCodes.OK).send(last10Data);
     }).catch(err => {
       console.log(err);
       res.status(StatusCodes.BAD_GATEWAY).json(err.message);

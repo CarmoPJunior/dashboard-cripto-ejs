@@ -75,6 +75,18 @@ h1, h2{
   cursor: pointer;
   color: #e49400;
 }
+
+.topbar .logo img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  border-radius: 50%!important;
+  border: 2px solid #fff;
+  border: 1px solid #ddd;
+  padding: 1px;
+  background: white;
+}
+
 .headerTitle{
   position: relative;
   width: 100%;
