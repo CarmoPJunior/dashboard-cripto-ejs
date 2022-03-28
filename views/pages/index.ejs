@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <meta http-equiv="refresh" content="10"> -->
+    <meta http-equiv="refresh" content="10">
 
     <title>Cripto - Dashboard</title>
 
@@ -44,7 +44,19 @@
 
   </div>
 
+  <!-- Import axios -->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <!-- Import ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- Import chartjs -->
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
+  <!-- Import scripts -->
+  <script src="js/index.js"></script>
 
   <script>
 
@@ -61,7 +73,7 @@
 
           let row = `<td>${order.tid}</td>`
             + `<td>${formatToDateString(order.date) }</td>`
-            + `<td>${formataMoeda(order.price)}</td>`
+            + `<td>${formatCurrency(order.price)}</td>`
             + `<td>${order.amount}</td>`
             + `<td><span class="status ${order.type === 'buy' ? 'buyStatus': 'sellStatus'}">${order.type}</span></td>`;
 
@@ -91,7 +103,7 @@
       row.innerHTML = dataRow;
     }
 
-    function formataMoeda(value){
+    function formatCurrency(value){
       value = parseFloat(value);
       return value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL', maximumFractionDigits: 2});
     }
@@ -114,62 +126,89 @@
       );
     }
 
+    function formatToDateStringShort(unix_timestamp) {
+
+      const date = new Date(unix_timestamp * 1000);
+
+      return (
+        [ padTo2Digits(date.getMonth() + 1),
+          date.getFullYear(),
+        ].join('-')
+      );
+    }
+
     // Add
     function padTo2Digits(num) {
       return num.toString().padStart(2, '0');
     }
+
   </script>
-
-
-  <!-- Import ionicons -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-  <!-- Importa scripts -->
-  <script src="js/index.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
   <script>
 
-    const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-    var yValues = [50,60,70,80,90,100,110,120,130,140,150];
+    const reloadDataChart = ( ) => {
 
-    const data = {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Dataset 1',
-          data: [45, 20, 100 ,80, 72, 35],
-          borderColor: "#5f4b8b",
-          backgroundColor: "#b76ba3",
-        },
+      axios.get('http://localhost:3000/coins/BTC-BRL/candles')
+      .then(response => {
 
-      ]
-    };
+        const candles = response.data;
+        const labels  = candles.date.map(date => { return formatToDateStringShort(date)});
+        const yValues = candles.close;
 
-    const config = {
-      type: 'line',
-      data: data,
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
+        ganerateLineChart("myChart", labels, yValues);
+
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+
+    reloadDataChart();
+
+    // const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    // const yValues = [50,60,70,80,90,100,110,120,130,140,150];
+    // ganerateLineChart("myChart", labels, yValues);
+
+    function ganerateLineChart(idChart, labels, values){
+
+      const data = {
+        labels: labels,
+        datasets: [
+          {
+            label: 'BitCoin',
+            data: values,
+            borderColor: "#5f4b8b",
+            backgroundColor: "#b76ba3",
           },
-          title: {
-            display: false,
-            text: 'Line Chart'
+
+        ]
+      };
+
+      const config = {
+        type: 'line',
+        data: data,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: false,
+              text: 'Line Chart'
+            }
+          },
+          scales: {
+            y: {
+              min: 0,
+              max: 500000,
+            }
           }
         },
-        scales: {
-          y: {
-            min: 0,
-          }
-        }
-      },
-    };
-    const myChart = new Chart("myChart", config);
+      };
+
+      const myChart = new Chart(idChart, config);
+    }
+
   </script>
 
 </body>

@@ -8,9 +8,7 @@ const route = Router();
 route.get("/coins/:coin", async function (req, res, next) {
   const { coin } = req.params;
 
-  const data = await MercadoBitCoinApi.get("tickers", { params: { symbols: coin } })
-    .then(response => response.data)
-    .catch(err => { res.status(StatusCodes.BAD_GATEWAY).json(err.message) });
+  const data = await getDataCoins(coin);
 
   res.status(StatusCodes.OK).send(data);
 });
@@ -38,8 +36,38 @@ route.get("/coins/:coin/trades", async function (req, res, next) {
     });
 });
 
-// Route to dashboard page
-route.get("/home", async function (req, res, next) {
+// Route to get last 12 months candles
+route.get("/coins/:coin/candles", async function (req, res, next) {
+
+  const { coin } = req.params;
+  const resolution :string  ="1M";
+  const from: Number = convertStringDateToUnixTimestamp('2021-03-27 00:00:00');
+  const to : Number = convertStringDateToUnixTimestamp('2022-03-27 23:59:59');
+
+  await MercadoBitCoinApi.get("candles",
+    { params: { symbol: coin,
+                resolution: resolution,
+                from: from,
+                to: to,
+              }
+    })
+  .then(response => {
+
+    const data = response.data;
+
+    const candles = {close: data.c, date: data.t};
+
+    res.status(StatusCodes.OK).json(candles);
+
+  }).catch(err => {
+    res.status(StatusCodes.BAD_GATEWAY).json(err.message)
+    console.log(err);
+  });
+
+});
+
+// Route to Index - dashboard page
+route.get("/", async function (req, res, next) {
   const coins = [
     { name: "Bitcoin", abbreviation: "BTC-BRL", lastValue: "0.0", logo: "icon-bitcoin.svg" },
     { name: "Ethereum", abbreviation: "ETH-BRL", lastValue: "0.0", logo: "icon-ethereum.svg" },
@@ -57,15 +85,36 @@ route.get("/home", async function (req, res, next) {
   res.render("pages/index", { coins });
 });
 
+
+// ***************** UTILS FUNCTIONS ****************
 const getDataCoins = async (coin: any) => {
   return await MercadoBitCoinApi.get("tickers", { params: { symbols: coin } })
     .then(response => response.data[0])
-    .catch(err => { console.log(err.message); return null });
+    .catch(err => { console.log(err.message); return err; });
 };
 
 const formatCurrency = (value:string):string => {
   return parseFloat(value)
     .toLocaleString("pt-br", { style: "currency", currency: "BRL", maximumFractionDigits: 2 });
 };
+
+const convertStringDateToUnixTimestamp = (value : string):number =>{
+  return Math.floor(new Date(value).getTime() / 1000);
+} ;
+
+
+const testeConvertDateToUnixTimestamp = () =>{
+  const unixTimestampFrom = convertStringDateToUnixTimestamp('2021-03-27 00:00:00');
+  const unixTimestampTo = convertStringDateToUnixTimestamp('2022-03-27 23:59:59');
+
+  console.log("unixTimestampFrom = " + unixTimestampFrom);
+  console.log("unixTimestampTo = " + unixTimestampTo);
+
+  const dateFrom = new Date(unixTimestampFrom * 1000);
+  const dateTo = new Date(unixTimestampTo * 1000);
+
+  console.log("dateFrom = " + dateFrom);
+  console.log("dateTo = " + dateTo);
+}
 
 export default route;
