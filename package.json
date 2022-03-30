@@ -1,10 +1,12 @@
 {
   "name": "dashboard-cripto-ejs",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts"
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
+    "start": "ts-node ./dist/server.js",
+    "build": "tsc -p ."
   },
   "dependencies": {
     "axios": "^0.26.1",

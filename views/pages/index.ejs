@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="10">
+    <meta http-equiv="refresh" content="15">
 
     <title>Cripto - Dashboard</title>
 
@@ -60,13 +60,14 @@
 
   <script>
 
+    const baseUrl = window.location + "coins/";
     const recentTradesTable = document.body.querySelector('#recentTrades');
 
     const reloadTable = ( ) => {
 
       clearTable(recentTradesTable);
 
-      axios.get('http://localhost:3000/coins/BTC-BRL/trades')
+      axios.get(baseUrl + 'BTC-BRL/trades')
       .then(response => {
 
         response.data.forEach(order => {
@@ -148,7 +149,7 @@
 
     const reloadDataChart = ( ) => {
 
-      axios.get('http://localhost:3000/coins/BTC-BRL/candles')
+      axios.get(baseUrl + 'BTC-BRL/candles')
       .then(response => {
 
         const candles = response.data;
@@ -178,6 +179,7 @@
             data: values,
             borderColor: "#5f4b8b",
             backgroundColor: "#b76ba3",
+            fill: false,
           },
 
         ]
@@ -210,6 +212,7 @@
     }
 
   </script>
+
 
 </body>
 </html>
