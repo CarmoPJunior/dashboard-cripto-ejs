@@ -6,6 +6,10 @@
 
 ---
 
+## Requirements
+- Node.js v8+
+
+---
 ## Technologies Used:
 - Node;
 - Express;
@@ -32,13 +36,20 @@
 
 ## Running on Docker
 
-> docker-compose up
+- **Requirements:**
+  - Docker and Docker Compose;
+- **Run:**
+    > docker-compose up
 
 ---
 
 ## Dashboard Url
 
 > http://localhost:3000/
+
+<br>
+
+![DashBoard](./docs/img/print-dashboard.PNG)
 
 ---
 
