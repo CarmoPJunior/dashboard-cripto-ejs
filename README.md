@@ -57,21 +57,21 @@
 
 - **List Coin Data:**
   - Description:
-    > ...
+    > List coin information;
   - Endpoint:
     > http://localhost:3000/coins/:coin
     > <br> ex: <br>
     > http://localhost:3000/coins/BTC-BRL
 - **List Last Trades:**
   - Description:
-    > ...
+    > List last 10 trades of the coin;
   - Endpoint:
     > http://localhost:3000/coins/:coin/trades
     > <br> ex: <br>
     > http://localhost:3000/coins/BTC-BRL/trades
 - **List Candles:**
   - Description:
-    > ...
+    > List last 12 months candles of the coin
   - Endpoint:
     > http://localhost:3000/coins/:coin/candles
     > <br> ex: <br>
