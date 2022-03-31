@@ -2,7 +2,7 @@
 
 ## Description
 
-> Criar um cripto dashboard que consome a api do MercadoBitcoin, exibindo as ultimas cotações, ultimas ordens executadas e um gráfico com a variação das ultimas cotações;
+> This project aims to create a crypto dashboard, which consumes the MercadoBitcoin API and displays the last quotes, the last executed orders and a chart with the variation of the last quotes;
 
 ---
 
@@ -13,6 +13,26 @@
 - EJS;
 - TypeScript;
 - Charts;
+
+---
+
+## Running on Local Machine
+
+- **Install dependencies:**
+  > yarn
+- **Run project in development:**
+  > yarn dev
+- **Run project in prod:**
+  1. **Build project:**
+      > yarn build
+  2. **Run project:**
+      > yarn start
+
+---
+
+## Running on Docker
+
+> docker-compose up
 
 ---
 
@@ -42,9 +62,10 @@
 
 ---
 
-## Pendências:
-  - [ ] Mudar cor do gráfico;
-  - [x] Ordenar table em ordem decrescente;
-  - [x] Implementar o gráfico com as ulitmas cotações;
-  - [x] Mudar logo;
-  - [ ] Implementar o docker;
+## Pendencies:
+
+  - [x] Sort table in descending order;
+  - [x] Implement chart with latest quotes;
+  - [x] Change Logo;
+  - [x] Implement docker;
+  - [ ] Change chart color;
