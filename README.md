@@ -59,17 +59,23 @@
   - Description:
     > ...
   - Endpoint:
-    > http://localhost:3000/
+    > http://localhost:3000/coins/:coin
+    > <br> ex: <br>
+    > http://localhost:3000/coins/BTC-BRL
 - **List Last Trades:**
   - Description:
     > ...
   - Endpoint:
-    > http://localhost:3000/
+    > http://localhost:3000/coins/:coin/trades
+    > <br> ex: <br>
+    > http://localhost:3000/coins/BTC-BRL/trades
 - **List Candles:**
   - Description:
     > ...
   - Endpoint:
-    > http://localhost:3000/
+    > http://localhost:3000/coins/:coin/candles
+    > <br> ex: <br>
+    > http://localhost:3000/coins/BTC-BRL/candles
 
 ---
 
